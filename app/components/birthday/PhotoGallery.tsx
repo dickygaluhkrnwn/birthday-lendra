@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react'; // Tambah useState & useEffect
+import React, { useState, useEffect } from 'react';
 import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -17,7 +17,7 @@ export default function PhotoGallery() {
   const router = useRouter();
   const [photos, setPhotos] = useState<PhotoData[]>([]);
 
-  // FIX: Generate rotasi acak hanya di Client
+  // FIX: Generate rotasi acak hanya di Client untuk menghindari Hydration Error
   useEffect(() => {
     const generatedPhotos = Array.from({ length: 10 }, (_, i) => ({
       id: i + 1,
@@ -111,7 +111,8 @@ export default function PhotoGallery() {
             {/* Efek Tape/Selotip di atas foto (Hiasan) */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-white/80 backdrop-blur-sm rotate-[-2deg] shadow-sm z-20 opacity-80" />
 
-            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md border border-gray-100">
+            {/* UPDATE: Ubah aspect-[3/4] menjadi aspect-square untuk foto 1:1 */}
+            <div className="relative aspect-square w-full overflow-hidden rounded-md border border-gray-100">
               <Image
                 src={`/images/lendra/photo${photo.id}.jpg`}
                 alt={`Kenangan ${photo.id}`}
